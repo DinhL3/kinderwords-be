@@ -1,3 +1,3 @@
-# kinderwords_be
-# kinderwords_be
-# kinderwords_be
+# Kinder Words project - Backend
+
+Use NodeJs, Express, MongoDB, Mongoose
