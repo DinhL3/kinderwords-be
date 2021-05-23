@@ -7,6 +7,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 
 const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth.api");
 
 const app = express();
 app.use(cors());
@@ -16,9 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 
 mongoose
-  .connect("mongodb://localhost/kinderwords_be", {
+  .connect("mongodb://localhost:27017/kinderwords_be", {
     useCreateIndex: true,
     useNewUrlParser: true,
     useFindAndModify: false,

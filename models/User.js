@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-const userSchema = Schema(
+const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -29,7 +30,7 @@ const userSchema = Schema(
   }
 );
 
-userSchema.plugin(require("./plugins/isDeletedFalse"));
+// userSchema.plugin(require("./plugins/isDeletedFalse"));
 
 userSchema.methods.toJSON = function () {
   const obj = this._doc;
@@ -40,6 +41,12 @@ userSchema.methods.toJSON = function () {
   // delete obj.isDeleted;
   return obj;
 };
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, saltRounds);
+  next();
+});
 
 userSchema.methods.generateToken = async function () {
   const accessToken = await jwt.sign({ _id: this._id }, JWT_SECRET_KEY, {

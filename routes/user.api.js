@@ -1,32 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
-
-/**
- * @route POST api/users
- * @description Register new user
- * @access Public
- */
+const { loginRequired } = require("../middlewares/authentication");
 
 router.post("/", userController.createUser);
-
-/**
- * @route PUT api/users/
- * @description Update user profile
- * @access Login required
- */
-
-/**
- * @route GET api/users/me
- * @description Get current user info
- * @access Login required
- */
-
-/**
- * @route GET api/users?page=1&limit=10
- * @description Get users with pagination
- * @access Login required
- * not needed as all users are anonymous
- */
+router.get("/", loginRequired, userController.getAllUsers);
+router.get("/me", loginRequired, userController.getCurrentUser);
+// router.put("/me", loginRequired, userController.updateProfile);
 
 module.exports = router;
