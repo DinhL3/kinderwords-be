@@ -50,7 +50,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.generateToken = async function () {
   const accessToken = await jwt.sign({ _id: this._id }, JWT_SECRET_KEY, {
-    expiresIn: "1d",
+    expiresIn: "14d",
   });
   return accessToken;
 };

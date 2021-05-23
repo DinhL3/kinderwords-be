@@ -39,7 +39,7 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const getCurrentUser = async (req, res, next) => {
+const getMyProfile = async (req, res, next) => {
   const userId = req.userId;
   console.log(userId);
   const user = await User.findById(userId);
@@ -56,4 +56,19 @@ const getCurrentUser = async (req, res, next) => {
   });
 };
 
-module.exports = { createUser, getAllUsers, getCurrentUser };
+const getSingleUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).json({
+      status: "Success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { createUser, getAllUsers, getMyProfile, getSingleUser };

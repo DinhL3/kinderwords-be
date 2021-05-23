@@ -1,34 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const requestController = require("../controllers/request.controller");
+const { loginRequired } = require("../middlewares/authentication");
 
-/**
- * @route GET /requests?page=1&limit=10
- * @description Get requests with pagination
- * @access Login required
- */
+router.post("/", loginRequired, requestController.createRequest);
+router.get("/", loginRequired, requestController.getAllRequests);
+router.get("/my_request", loginRequired, requestController.getMyRequest);
+router.put("/my_request", loginRequired, requestController.editMyRequest);
+router.delete("/my_request", loginRequired, requestController.deleteMyRequest);
 
-/**
- * @route GET /requests/:id
- * @description Get a single request
- * @access Login required
- */
-
-/**
- * @route POST /requests
- * @description Create a new request
- * @access Login required
- */
-
-/**
- * @route PUT /requests/:id
- * @description Update a request
- * @access Login required
- */
-
-/**
- * @route DELETE /requests/:id
- * @description Delete a request
- * @access Login required
- */
-
+// router.get("/single/:id", loginRequired, requestController.getSingleRequest);
 module.exports = router;

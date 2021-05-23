@@ -14,7 +14,6 @@ const loginWithEmail = async (req, res, next) => {
         success: false,
         error: "Wrong email or password",
       });
-    console.log(user);
 
     const isMatch = await bcrypt.compare(password, user.password);
 
