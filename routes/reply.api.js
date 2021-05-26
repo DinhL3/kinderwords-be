@@ -1,22 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const replyController = require("../controllers/reply.controller");
+const { loginRequired } = require("../middlewares/authentication");
 
-/**
- * @route GET api/replies/requests/:id?page=1&limit=10
- * @description Get replies of a request with pagination
- * @access Login required
- */
-
-/**
- * @route POST api/replies/requests/:id
- * @description Create a new reply for a request
- * @access Login required
- */
-
-/**
- * @route DELETE api/replies/:id
- * @description Delete a reply
- * @access Login required
- */
+router.post("/requests/:id", loginRequired, replyController.createReply);
+router.get("/my_inbox", loginRequired, replyController.getMyInbox);
 
 module.exports = router;

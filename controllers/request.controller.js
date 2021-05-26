@@ -26,10 +26,12 @@ const getAllRequests = async (req, res, next) => {
     const userId = req.userId;
     const requests = await Request.find({
       user: { $ne: { _id: userId } },
-    }).populate({
-      path: "user",
-      select: "-email -createdAt -updatedAt",
-    });
+    })
+      .populate({
+        path: "user",
+        select: "-email -createdAt -updatedAt",
+      })
+      .sort({ createdAt: -1 });
     res.status(200).json({
       status: "success",
       data: requests,

@@ -8,7 +8,6 @@ const requestSchema = Schema(
       type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
-      unique: true,
     },
     repliesCount: { type: Number, default: 0 },
   },
