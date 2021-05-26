@@ -33,6 +33,7 @@ const getAllRequests = async (req, res, next) => {
       })
       .sort({ createdAt: -1 });
 
+    // If a user create multiple requests, only show the latest
     function getUnique(array) {
       const arr = array;
       for (let i = 0; i < arr.length; i++) {

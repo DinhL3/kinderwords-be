@@ -32,7 +32,7 @@ const getMyInbox = async (req, res) => {
     const replies = await Reply.find()
       .populate({
         path: "request",
-        select: "-createdAt -updatedAt -repliesCount -content -__v",
+        select: "-createdAt -updatedAt -repliesCount -__v",
       })
       .sort({ createdAt: -1 });
 
