@@ -29,14 +29,14 @@ const createReply = async (req, res) => {
 const getMyInbox = async (req, res) => {
   try {
     const userId = req.userId;
-    const repliesAll = await Reply.find()
+    const replies = await Reply.find()
       .populate({
         path: "request",
         select: "-createdAt -updatedAt -repliesCount -content -__v",
       })
       .sort({ createdAt: -1 });
 
-    const repliesMineOnly = repliesAll.filter(
+    const repliesMineOnly = replies.filter(
       (reply) => reply.request.user == userId
     );
     res.status(201).json({

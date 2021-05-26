@@ -26,15 +26,19 @@ const getAllRequests = async (req, res, next) => {
     const userId = req.userId;
     const requests = await Request.find({
       user: { $ne: { _id: userId } },
-    })
-      .populate({
-        path: "user",
-        select: "-email -createdAt -updatedAt",
-      })
-      .sort({ createdAt: -1 });
+    }).populate({
+      path: "user",
+      select: "-email -createdAt -updatedAt",
+    });
+    // .sort({ createdAt: -1 });
+
+    const requestsFiltered = [
+      ...new Map(requests.map((obj) => [`${obj.user._id}`, obj])).values(),
+    ];
+
     res.status(200).json({
       status: "success",
-      data: requests,
+      data: requestsFiltered,
     });
   } catch (err) {
     res.status(400).json({
