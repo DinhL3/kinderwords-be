@@ -26,19 +26,30 @@ const getAllRequests = async (req, res, next) => {
     const userId = req.userId;
     const requests = await Request.find({
       user: { $ne: { _id: userId } },
-    }).populate({
-      path: "user",
-      select: "-email -createdAt -updatedAt",
-    });
-    // .sort({ createdAt: -1 });
+    })
+      .populate({
+        path: "user",
+        select: "-email -createdAt -updatedAt",
+      })
+      .sort({ createdAt: -1 });
 
-    const requestsFiltered = [
-      ...new Map(requests.map((obj) => [`${obj.user._id}`, obj])).values(),
-    ];
+    function getUnique(array) {
+      const arr = array;
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+          if (arr[i].user._id === arr[j].user._id) {
+            arr.splice(j, 1);
+          }
+        }
+      }
+      return arr;
+    }
+
+    const requestsLastestFromEachUserOnly = getUnique(requests);
 
     res.status(200).json({
       status: "success",
-      data: requestsFiltered,
+      data: requestsLastestFromEachUserOnly,
     });
   } catch (err) {
     res.status(400).json({
