@@ -30,7 +30,7 @@ const getAllRequests = async (req, res, next) => {
 
     const requests = await Request.find({
       _id: { $ne: requestsRepliedByMeIds },
-      user: { $ne: { _id: userId } },
+      user: { $ne: userId },
     })
       .populate({
         path: "user",
