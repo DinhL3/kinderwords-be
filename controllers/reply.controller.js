@@ -31,9 +31,9 @@ const getMyInbox = async (req, res) => {
     const userId = req.userId;
 
     const myRequests = await Request.find({ user: userId });
-    const myRequestsId = myRequests.map((request) => request._id);
+    const myRequestsIds = myRequests.map((request) => request._id);
 
-    const replies = await Reply.find({ request: myRequestsId })
+    const replies = await Reply.find({ request: myRequestsIds })
       .populate({
         path: "request",
         select: "-createdAt -updatedAt -repliesCount -__v",

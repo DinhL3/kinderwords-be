@@ -1,5 +1,5 @@
-const Reply = require("../models/Reply");
 const Request = require("../models/Request");
+const Reply = require("../models/Reply");
 
 const createRequest = async (req, res) => {
   try {
@@ -25,8 +25,11 @@ const createRequest = async (req, res) => {
 const getAllRequests = async (req, res, next) => {
   try {
     const userId = req.userId;
+    const repliesByMe = await Reply.find({ user: userId });
+    const requestsRepliedByMeIds = repliesByMe.map((reply) => reply.request);
 
     const requests = await Request.find({
+      _id: { $ne: requestsRepliedByMeIds },
       user: { $ne: { _id: userId } },
     })
       .populate({
@@ -35,16 +38,24 @@ const getAllRequests = async (req, res, next) => {
       })
       .sort({ createdAt: -1 });
 
-    // const latest = await Request.aggregate([
-    //   { $sort: { createdAt: 1 } },
-    //   {
-    //     $group: { _id: "$user", lastRequestCreatedAt: { $last: "$createdAt" } },
-    //   },
-    // ]);
-    // console.log(latest);
+    // If a user create multiple requests, only show the latest
+    function getUnique(array) {
+      const arr = array;
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+          if (arr[i].user._id === arr[j].user._id) {
+            arr.splice(j, 1);
+          }
+        }
+      }
+      return arr;
+    }
+
+    const requestsLastestFromEachUserOnly = getUnique(requests);
+
     res.status(200).json({
       status: "success",
-      data: requests,
+      data: requestsLastestFromEachUserOnly,
     });
   } catch (err) {
     res.status(400).json({
