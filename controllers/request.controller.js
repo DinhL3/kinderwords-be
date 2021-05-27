@@ -26,9 +26,6 @@ const getAllRequests = async (req, res, next) => {
   try {
     const userId = req.userId;
 
-    //  const repliedByUser;
-
-    // use aggerate, group by user and show latest
     const requests = await Request.find({
       user: { $ne: { _id: userId } },
     })
@@ -38,6 +35,13 @@ const getAllRequests = async (req, res, next) => {
       })
       .sort({ createdAt: -1 });
 
+    // const latest = await Request.aggregate([
+    //   { $sort: { createdAt: 1 } },
+    //   {
+    //     $group: { _id: "$user", lastRequestCreatedAt: { $last: "$createdAt" } },
+    //   },
+    // ]);
+    // console.log(latest);
     res.status(200).json({
       status: "success",
       data: requests,
