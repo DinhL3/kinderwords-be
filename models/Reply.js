@@ -9,7 +9,6 @@ const replySchema = Schema(
       type: Schema.ObjectId,
       required: true,
       ref: "User",
-      unique: true,
     },
     request: { type: Schema.ObjectId, required: true, ref: "Request" },
   },

@@ -1,5 +1,5 @@
 const Reply = require("../models/Reply");
-// const Request = require("../models/Request");
+const Request = require("../models/Request");
 
 const createReply = async (req, res) => {
   try {
@@ -29,19 +29,20 @@ const createReply = async (req, res) => {
 const getMyInbox = async (req, res) => {
   try {
     const userId = req.userId;
-    const replies = await Reply.find()
+
+    const myRequests = await Request.find({ user: userId });
+    const myRequestsId = myRequests.map((request) => request._id);
+
+    const replies = await Reply.find({ request: myRequestsId })
       .populate({
         path: "request",
         select: "-createdAt -updatedAt -repliesCount -__v",
       })
       .sort({ createdAt: -1 });
 
-    const repliesMineOnly = replies.filter(
-      (reply) => reply.request.user == userId
-    );
     res.status(201).json({
       success: true,
-      data: repliesMineOnly,
+      data: replies,
       message: `Here is your inbox with all replies`,
     });
   } catch (err) {
