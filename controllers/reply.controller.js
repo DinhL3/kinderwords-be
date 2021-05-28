@@ -38,6 +38,10 @@ const getMyInbox = async (req, res) => {
         path: "request",
         select: "-createdAt -updatedAt -repliesCount -__v",
       })
+      .populate({
+        path: "user",
+        select: "-email -createdAt -updatedAt",
+      })
       .sort({ createdAt: -1 });
 
     res.status(201).json({
