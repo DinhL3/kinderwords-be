@@ -28,15 +28,28 @@ const getAllRequests = async (req, res, next) => {
     const repliesByMe = await Reply.find({ user: userId });
     const requestsRepliedByMeIds = repliesByMe.map((reply) => reply.request);
 
-    const requests = await Request.find({
-      _id: { $ne: requestsRepliedByMeIds },
-      user: { $ne: userId },
-    })
-      .populate({
-        path: "user",
-        select: "-email -createdAt -updatedAt",
+    let requests;
+    if (requestsRepliedByMeIds.length > 0) {
+      requests = await Request.find({
+        _id: { $ne: requestsRepliedByMeIds },
+        user: { $ne: userId },
       })
-      .sort({ createdAt: -1 });
+        .populate({
+          path: "user",
+          select: "-email -createdAt -updatedAt",
+        })
+        .sort({ createdAt: -1 });
+    } else {
+      console.log("user haven't replied to any requests!");
+      requests = await Request.find({
+        user: { $ne: userId },
+      })
+        .populate({
+          path: "user",
+          select: "-email -createdAt -updatedAt",
+        })
+        .sort({ createdAt: -1 });
+    }
 
     // If a user create multiple requests, only show the latest
     function getUnique(array) {
