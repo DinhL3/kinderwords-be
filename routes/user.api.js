@@ -6,7 +6,7 @@ const { loginRequired } = require("../middlewares/authentication");
 router.post("/", userController.createUser);
 router.get("/", loginRequired, userController.getAllUsers);
 router.get("/me", loginRequired, userController.getMyProfile);
-// router.put("/me", loginRequired, userController.updateProfile);
+router.put("/me", loginRequired, userController.updateMyProfile);
 
 // router.get("/:id", userController.getSingleUser);
 

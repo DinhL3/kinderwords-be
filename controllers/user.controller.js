@@ -71,4 +71,36 @@ const getSingleUser = async (req, res, next) => {
   }
 };
 
-module.exports = { createUser, getAllUsers, getMyProfile, getSingleUser };
+const updateMyProfile = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const { name } = req.body;
+    const user = await User.findOneAndUpdate(
+      {
+        _id: userId,
+      },
+      {
+        name: name,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      status: "Success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = {
+  createUser,
+  getAllUsers,
+  getMyProfile,
+  getSingleUser,
+  updateMyProfile,
+};
