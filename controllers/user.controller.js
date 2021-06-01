@@ -41,7 +41,6 @@ const getAllUsers = async (req, res, next) => {
 
 const getMyProfile = async (req, res, next) => {
   const userId = req.userId;
-  console.log(userId);
   const user = await User.findById(userId);
   if (!user)
     return res.status(400).json({

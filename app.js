@@ -20,7 +20,7 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
 mongoose
-  .connect("mongodb://localhost:27017/kinderwords_be", {
+  .connect(process.env.ATLAS, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useFindAndModify: false,
