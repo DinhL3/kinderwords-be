@@ -21,7 +21,7 @@ app.use("/auth", authRouter);
 
 mongoose
   .connect(
-    `"mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.jq08c.mongodb.net/kinderwords?retryWrites=true&w=majority"`,
+    `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.jq08c.mongodb.net/kinderwords?retryWrites=true&w=majority`,
     {
       useCreateIndex: true,
       useNewUrlParser: true,
