@@ -20,12 +20,15 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
 mongoose
-  .connect(process.env.ATLAS, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `"mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.jq08c.mongodb.net/kinderwords?retryWrites=true&w=majority"`,
+    {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log(`MongoDB database connection established successfully!`);
   })
