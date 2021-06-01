@@ -28,8 +28,6 @@ const getAllRequests = async (req, res, next) => {
     const repliesByMe = await Reply.find({ user: userId });
     const requestsRepliedByMeIds = repliesByMe.map((reply) => reply.request);
 
-    console.log(requestsRepliedByMeIds);
-
     let requests;
     requests = await Request.find({
       _id: { $nin: requestsRepliedByMeIds },

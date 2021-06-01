@@ -1,11 +1,18 @@
 const Reply = require("../models/Reply");
 const Request = require("../models/Request");
+const Helper = require("../helpers/email.helper");
 
 const createReply = async (req, res) => {
   try {
     const userId = req.userId;
     const requestId = req.params.id;
-    // How to get id of user that wrote request? Find the request and extract the user id
+    const request = await Request.findOne({ _id: requestId }).populate({
+      path: "user",
+      select: "-createdAt -updatedAt",
+    });
+
+    const name = request.user.name;
+    const email = request.user.email;
 
     const reply = new Reply({
       content: req.body.content,
@@ -13,6 +20,18 @@ const createReply = async (req, res) => {
       request: requestId,
     });
     await reply.save();
+    await Helper.emailInternalHelper.createTemplatesIfNotExists();
+    const emailData = await Helper.emailHelper.renderEmailTemplate(
+      "reply_notification_email",
+      { name: name },
+      email
+    );
+    if (!emailData.error) {
+      Helper.emailHelper.send(emailData);
+    } else {
+      throw new Error("Create email fail");
+    }
+
     res.status(201).json({
       success: true,
       data: reply,
