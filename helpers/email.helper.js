@@ -21,25 +21,18 @@ emailInternalHelper.createTemplatesIfNotExists = async () => {
         from: "Kinder Words <admin@kinderwords.com>",
         subject: "Someone replied to your request!",
         variables: ["name"],
-        html: `<div style="width=100%; font-family: Comic Neue, cursive; padding:0; margin: 0; display: flex; color:white">
-        <div style="width=310px; margin: auto; background: linear-gradient(
-          to bottom,
-          hsl(310, 50%, 10%),
-          hsl(325, 50%, 15%),
-          hsl(340, 50%, 20%)
-        ); padding: 4rem 2rem; box-shadow: 3px 5px 15px 5px rgba(0, 0, 0, 0.419);">
-          <h1 style="display: block; border-bottom: 1px solid hsla(310, 10%, 50%, 0.5); text-align:center; margin: 0 0 1rem 0; padding-bottom: 1rem;">[KINDER WORDS]</h1>
-          Hi %name%,
-                  <br /> <br /> 
-                  Someone replied to a request you sent.
-                  <br/>Please visit your inbox to read this reply.
-                  <br/>
-          <div style="display:flex;">
-          <a href="https://kinder-words.netlify.app/inbox" target="_blank" style="display: block; margin: 1rem 0; padding: 0.5em; color: white; text-decoration: none; border: 1px solid white;">Go to Inbox</a>
-            </div>
-                  Kinder Words
-          </div>
-                  </div>
+        html: `<h1 style="margin: 0; font-family: cursive">[KINDER WORDS]</h1>
+        <span style="color:grey; font-family: cursive">write nice letters to real people</span><br/><br/>
+        
+        <div style="font-family:cursive">
+        Hi %name%,
+        <br /> <br /> 
+        Someone replied to a request you sent.
+        <br/>Please visit your inbox to read this reply.<br/><br/>
+                    <a href="https://kinder-words.netlify.app/inbox" target="_blank" style="margin: 1rem 0; text-decoration: none; padding: 0.5em; background-color: hsl(325, 50%, 25%)
+        ; color:white; border-radius: 3px; font-family: cursive">Go to Inbox</a><br/><br/>
+        Kinder Words
+        </div>
             `,
       });
     }
