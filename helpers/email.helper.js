@@ -21,18 +21,18 @@ emailInternalHelper.createTemplatesIfNotExists = async () => {
         from: "Kinder Words <admin@kinderwords.com>",
         subject: "Someone replied to your request!",
         variables: ["name"],
-        html: `<h1 style="margin: 0; font-family: cursive">[KINDER WORDS]</h1>
-        <span style="color:grey; font-family: cursive">write nice letters to real people</span><br/><br/>
-        
+        html: `
         <div style="font-family:cursive">
-        Hi %name%,
-        <br /> <br /> 
-        Someone replied to a request you sent.
-        <br/>Please visit your inbox to read this reply.<br/><br/>
-                    <a href="https://kinder-words.netlify.app/inbox" target="_blank" style="margin: 1rem 0; text-decoration: none; padding: 0.5em; background-color: hsl(325, 50%, 25%)
-        ; color:white; border-radius: 3px; font-family: cursive">Go to Inbox</a><br/><br/>
-        Kinder Words
-        </div>
+<h1 style="margin: 0;">[KINDER WORDS]</h1>
+<span style="color:grey;">write nice letters to real people</span><br/><br/>  
+Hi %name%,
+<br /> <br /> 
+Someone replied to a request you sent.
+<br/>Please visit your inbox to read this reply.<br/><br/>
+            <a href="https://kinder-words.netlify.app/inbox" target="_blank" style="margin: 1rem 0; text-decoration: none; padding: 0.5em; background-color: hsl(325, 50%, 25%)
+; color:white; border-radius: 3px; font-family: cursive">Go to Inbox</a><br/><br/>
+Kinder Words
+</div>
             `,
       });
     }
