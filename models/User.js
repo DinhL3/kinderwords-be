@@ -48,6 +48,29 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+userSchema.statics.findOrCreate = function findOrCreate(profile, cb) {
+  const userObj = new this();
+  this.findOne({ email: profile.email }, async function (err, result) {
+    if (!result) {
+      // create user
+      // 1. make new password
+      let newPassword = "" + Math.floor(Math.random() * 1000000000);
+      newPassword = await bcrypt.hash(newPassword, saltRounds);
+
+      // 2. save user
+      userObj.name = profile.name;
+      userObj.email = profile.email;
+      userObj.password = newPassword;
+
+      // 3. callback
+      await userObj.save(cb);
+    } else {
+      // send user info back to passport
+      cb(err, result);
+    }
+  });
+};
+
 userSchema.methods.generateToken = async function () {
   const accessToken = await jwt.sign({ _id: this._id }, JWT_SECRET_KEY, {
     expiresIn: "14d",

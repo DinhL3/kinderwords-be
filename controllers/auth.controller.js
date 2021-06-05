@@ -39,6 +39,27 @@ const loginWithEmail = async (req, res, next) => {
   }
 };
 
+const loginWithFacebookOrGoogle = async (req, res, next) => {
+  try {
+    const { user } = req;
+    if (user) {
+      user = await User.findByIdAndUpdate(user._id, { new: true });
+    } else {
+      throw new Error("Login failed");
+    }
+
+    const accessToken = await user.generateToken();
+
+    res.status(200).json({ status: "success", data: { user, accessToken } });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   loginWithEmail,
+  loginWithFacebookOrGoogle,
 };
