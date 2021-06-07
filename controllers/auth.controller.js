@@ -41,7 +41,7 @@ const loginWithEmail = async (req, res, next) => {
 
 const loginWithFacebookOrGoogle = async (req, res, next) => {
   try {
-    const { user } = req;
+    let { user } = req;
     if (user) {
       user = await User.findByIdAndUpdate(user._id, { new: true });
     } else {
