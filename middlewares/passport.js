@@ -24,12 +24,12 @@ passport.use(
       fbGraphVersion: "v3.0",
     },
     function (accessToken, refreshToken, profile, done) {
-      console.log("haha", FACEBOOK_APP_ID, FACEBOOK_APP_SECRET);
+      // console.log("haha", FACEBOOK_APP_ID, FACEBOOK_APP_SECRET);
       User.findOrCreate(
         {
           facebookId: profile.id,
-          name: profile.displayName,
-          email: profile.emails[0].value,
+          name: profile.name,
+          email: profile.email,
         },
         function (error, user) {
           return done(error, user);

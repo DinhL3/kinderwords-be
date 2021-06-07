@@ -21,11 +21,6 @@ app.use("/auth", authRouter);
 const passport = require("passport");
 require("./middlewares/passport");
 app.use(passport.initialize());
-console.log(
-  "kkk",
-  process.env.FACEBOOK_APP_SECRET,
-  process.env.FACEBOOK_APP_ID
-);
 
 mongoose
   .connect(
