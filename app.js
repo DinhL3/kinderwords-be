@@ -21,6 +21,11 @@ app.use("/auth", authRouter);
 const passport = require("passport");
 require("./middlewares/passport");
 app.use(passport.initialize());
+console.log(
+  "kkk",
+  process.env.FACEBOOK_APP_SECRET,
+  process.env.FACEBOOK_APP_ID
+);
 
 mongoose
   .connect(
@@ -33,6 +38,7 @@ mongoose
     }
   )
   .then(() => {
+    ``;
     console.log(`MongoDB database connection established successfully!`);
   })
   .catch((err) => console.error("Could not connect to database!", err));

@@ -24,6 +24,7 @@ passport.use(
       fbGraphVersion: "v3.0",
     },
     function (accessToken, refreshToken, profile, done) {
+      console.log("haha", FACEBOOK_APP_ID, FACEBOOK_APP_SECRET);
       User.findOrCreate(
         {
           facebookId: profile.id,
